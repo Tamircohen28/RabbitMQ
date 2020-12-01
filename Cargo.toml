@@ -1,5 +1,5 @@
 [package]
-name = "client"
+name = "rabbit_mq_rust"
 version = "0.1.0"
 authors = ["Tamir Cohen <Tamircohen2468@gmail.com>"]
 edition = "2018"

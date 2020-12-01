@@ -2,9 +2,9 @@ use std::net::{IpAddr};
 #[allow(unused_imports)]
 use log::{info, warn, error};
 use std::thread;
-use std::sync::{Arc, Mutex};
 use std::net::{TcpListener, TcpStream, Shutdown};
 use std::io::{Read, Write};
+use clap::{Arg, App};
 
 struct TCPAddress {
     ip: IpAddr,
@@ -31,6 +31,7 @@ const MAX_CONNECTIONS : usize = 2;
 
 fn handle_client(recv_stream: &mut TcpStream, send_stream: &mut TcpStream) {
     let mut data = [0 as u8; MAX_MSG_SIZE];
+    println!("Waiting for messages from {}...", recv_stream.peer_addr().unwrap());
     
     while match recv_stream.read(&mut data) {
         Ok(size) => {
@@ -73,23 +74,19 @@ fn main() {
             }
         }
     }    
-    let streams = Arc::new(Mutex::new(streams));
-    let streams_copy = streams.clone();
+
+    // clone strems before sending to threads
+    let mut tcp_stream_1 = streams.pop().unwrap();
+    let mut tcp_stream_1_copy = tcp_stream_1.try_clone().unwrap();
+    let mut tcp_stream_2 = streams.pop().unwrap();
+    let mut tcp_stream_2_copy = tcp_stream_2.try_clone().unwrap();
 
     let connection_a = thread::spawn(move|| {  
-        let mut streams = streams.lock().unwrap(); 
-        let (src, dst) = streams.split_at_mut(1);
-        let src = &mut src[0];
-        let dst = &mut dst[0]; 
-        handle_client(src, dst); 
+        handle_client(&mut tcp_stream_1, &mut tcp_stream_2); 
     });
 
-    let connection_b = thread::spawn(move|| {   
-        let mut streams = streams_copy.lock().unwrap();
-        let (src, dst) = streams.split_at_mut(1);
-        let src = &mut src[0];
-        let dst = &mut dst[0]; 
-        handle_client(dst, src); 
+    let connection_b = thread::spawn(move|| {  
+        handle_client(&mut tcp_stream_2_copy, &mut tcp_stream_1_copy); 
     });
 
     if let Err(e) = connection_a.join() {
