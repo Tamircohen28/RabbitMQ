@@ -9,5 +9,8 @@ edition = "2018"
 [dependencies]
 amiquip = "0.4.0"
 log = "0.4.11"
-clap = "2.33.3"
+clap = {version = "~2.27.0", features = ["yaml"]}
 env_logger = "0.8.2"
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.48"
+rand = "0.7.3"

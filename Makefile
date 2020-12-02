@@ -2,10 +2,16 @@ build:
 	cargo build
 
 run_tcp:
-	.\target\debug\tcp.exe -i 127.0.0.1 -p 9999 
+	cargo run --bin tcp_server -- --tcp_addr 127.0.0.1:9999
 
 run_client:
-	.\target\debug\client.exe -i 127.0.0.1 -p 9999 -s amqp://guest:guest@localhost:5672 --rabbit_queue_src starta_test_queue --rabbit_queue_dst enda_test_queue
+	cargo run --bin rabbit_to_tcp -- --tcp_addr 127.0.0.1:9999 --rabbit_addr amqp://guest:guest@localhost:5672 --src_queue starta_test_queue --dst_queue enda_test_queue
 
 run_client_oppsite:
-	.\target\debug\client.exe -i 127.0.0.1 -p 9999 -s amqp://guest:guest@localhost:5672 --rabbit_queue_src startb_test_queue --rabbit_queue_dst endb_test_queue 
+	cargo run --bin rabbit_to_tcp -- --tcp_addr 127.0.0.1:9999 --rabbit_addr amqp://guest:guest@localhost:5672 --src_queue startb_test_queue --dst_queue endb_test_queue
+
+run_platform:
+	cargo run --bin platform
+
+gen_msg:
+	cargo run --bin msg_generator

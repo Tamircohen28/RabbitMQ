@@ -1,0 +1,12 @@
+@today  generate msg bin 
+@today  boot -> info 
+@today  condt actions -> trace
+@high cargo banch -> throughtput in system and each procces
+@low  test -> if possible
+@today  change bin names
+@today   add docs on platform
+@today  read config from yml (use macro)
+@today  use struct for args
+@today  lookup serde
+@today  add new for structs
+@today  check Addr struct

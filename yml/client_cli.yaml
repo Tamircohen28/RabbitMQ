@@ -1,0 +1,33 @@
+name: rabbit to tcp process
+version: "1.0"
+author: Tamir Cohen <tamirc@mtazov.idf>
+about: transfers data from rabbit to tcp (in both directions)
+args:
+    - tcp_addr:
+        short: t
+        long: tcp_addr
+        value_name: ADDRESS
+        help: tcp server address
+        takes_value: true
+        required: true
+    - rabbit_addr:
+        short: r
+        long: rabbit_addr
+        value_name: ADDRESS
+        help: rabbit server address
+        takes_value: true
+        required: true
+    - src_queue:
+        short: s
+        long: src_queue
+        value_name: QUEUE
+        help: rabbit src queue
+        takes_value: true
+        required: true
+    - dst_queue:
+        short: d
+        long: dst_queue
+        value_name: QUEUE
+        help: rabbit dst queue
+        takes_value: true
+        required: true

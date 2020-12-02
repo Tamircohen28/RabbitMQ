@@ -1,0 +1,12 @@
+name: tcp server
+version: "1.0"
+author: Tamir Cohen <tamirc@mtazov.idf>
+about: transfer data (in both directions)
+args:
+    - tcp_addr:
+        short: t
+        long: tcp_addr
+        value_name: ADDRESS
+        help: tcp server address
+        takes_value: true
+        required: true

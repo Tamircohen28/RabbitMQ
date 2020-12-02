@@ -1,0 +1,18 @@
+{
+    "client_1": {
+        "src_queue": "starta_test_queue",
+        "dst_queue": "enda_test_queue"
+    },
+    "client_2": {
+        "src_queue": "startb_test_queue",
+        "dst_queue": "endb_test_queue"
+    },
+    "network": {
+        "tcp_addr": "127.0.0.1:9999",
+        "rabbit_addr": "amqp://guest:guest@localhost:5672"
+    },
+    "binary": {
+        "tcp_bin": "C:\\Users\\tamir\\Desktop\\RabbitMQ\\target\\debug\\tcp_server.exe",
+        "rabbit_to_tcp_bin": "C:\\Users\\tamir\\Desktop\\RabbitMQ\\target\\debug\\rabbit_to_tcp.exe"
+    }
+}
