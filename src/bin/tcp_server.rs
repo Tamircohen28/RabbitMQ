@@ -43,20 +43,15 @@ fn handle_client(recv_stream: &mut TcpStream, send_stream: &mut TcpStream) -> Re
     info!("Waiting for messages from {}...", recv_addr);
     loop {
         match recv_stream.read(&mut buffer) {
-            // empty message
-            Ok(0) => {
-                warn!("Empty message from {}", recv_addr);
-            },
-            // valid message
+            Ok(0) => warn!("Empty message from {}", recv_addr),
             Ok(bytes_recv) => {
                 trace!("Received {} bytes from {}", bytes_recv, recv_addr);
                 
-                if let Err(e) = send_stream.write(&buffer[0..bytes_recv]) {
+                if let Err(e) = send_stream.write(&buffer[..bytes_recv]) {
                     error!("failed writing to stream '{}'", e);
                     return Err(());
                 }
             },
-            // connection error
             Err(e) => {
                 error!("An error occurred, terminating connection with {} : '{}'", recv_addr, e);
                 if let Err(e) = recv_stream.shutdown(Shutdown::Both) {
@@ -72,14 +67,11 @@ fn main() -> Result<(), ()> {
     // set up
     env_logger::Builder::from_env(Env::default().default_filter_or("tcp_server")).init();
     let config = Config::new();
-
-    info!("\n{:#?}", config);
     info!("Starting up TCP Server...");
     
     // binding to port
     let listener = TcpListener::bind(config.tcp_addr).unwrap();
     info!("bind succesful");
-
     let mut streams : Vec<TcpStream> = Vec::new();
     trace!("Server listening for connections...");
 
